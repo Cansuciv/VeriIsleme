@@ -2,9 +2,30 @@
 
 Bu repo, MinIO (Data Lake), Apache NiFi (veri akis/aktarim), Apache Spark (ETL), ClickHouse (Data Warehouse) ve Superset (BI) uzerinden uctan uca veri isleme akisini ornekler.
 
+## Frontend
+
+`veriisleme-frontend/` klasoru Angular tabanlidir. Arayuzden yuklenen dosyalar backend uzerinden MinIO'ya aktarilir ve `veriisleme` bucket'ina yazilir.
+
+Calistirma:
+
+```bash
+npm install
+npm run start
+```
+
+## Backend
+
+`veriisleme-backend/` klasoru Spring Boot tabanlidir ve MinIO SDK kullanir. Frontend'den gelen dosya istegini alir, MinIO'ya baglanir ve objeyi `veriisleme` bucket'ina kaydeder. MinIO baglantisi icin kullanilan kullanici/parola ve endpoint bilgileri `docker-compose.yml` ile uyumludur.
+
+Calistirma:
+
+```bash
+mvn spring-boot:run
+```
+
 ## Projede Yapilanlar (Sirasiyla)
 
-1. Docker kurulumlari icin komutlar `Terminal.txt` dosyasinda tutuldu. Ancak kalici ve tekrar edilebilir kurulum icin `docker-compose.yml` kullanilabilir.
+1. Docker kurulumlari icin komutlar `Terminal.txt` dosyasinda tutuldu. Bu projede kurulumlar tek tek `Terminal.txt` uzerinden yapildi. Alternatif olarak toplu kurulum icin `docker-compose.yml` kullanilabilir.
 2. MinIO kuruldu ve kullanici adi/parola ile girildikten sonra `veriisleme` adli bucket olusturuldu. Frontend uzerinden yuklenen dosyalar bu bucketa geliyor.
 3. Apache NiFi kuruldu ve kullanici adi/parola ile girildi. Aşağıdaki akis kuruldu:
    `ListS3 › LogAttribute › FetchS3Object › PutFile`
@@ -20,6 +41,8 @@ Bu repo, MinIO (Data Lake), Apache NiFi (veri akis/aktarim), Apache Spark (ETL),
    - `SELECT COUNT(*) AS toplam FROM hr_data WHERE gender='Female' AND education_level='Phd';`
 8. Superset kuruldu. Kullanici ve parola olusturulduktan sonra Database Connections bolumunde ClickHouse secildi ve baglanti yapildi. Sonra chart turu secilerek gorsellestirme yapildi.
 
+
+
 ## Bilesenler
 
 - MinIO (Data Lake): `http://localhost:9001`
@@ -30,7 +53,9 @@ Bu repo, MinIO (Data Lake), Apache NiFi (veri akis/aktarim), Apache Spark (ETL),
 
 ## Calistirma
 
-### Docker Compose ile ayağa kaldirma
+Bu projede servisler `Terminal.txt` icindeki docker komutlariyla tek tek ayaga kaldirildi. Toplu kurulum icin `docker-compose.yml` kullanilabilir.
+
+### Docker Compose ile ayaga kaldirma (opsiyonel)
 
 ```bash
 docker compose up -d
@@ -43,27 +68,6 @@ docker exec -it spark bash
 /opt/spark/bin/spark-submit /opt/spark/work-dir/my_etl.py
 ```
 
-## ClickHouse Kurulumu (Terminal.txt)
-
-```bash
-docker run -d --name clickhouse-server -p 8123:8123 -p 9002:9000 -v clickhouse_data:/var/lib/clickhouse -e CLICKHOUSE_USER=default -e CLICKHOUSE_PASSWORD=cansu2004 clickhouse/clickhouse-server:latest
-```
-
-## Superset Kurulumu (Terminal.txt)
-
-```bash
-# 1) Superset container
-docker run -d --name superset -p 8088:8088 -e "SUPERSET_SECRET_KEY=change-this-to-a-long-random-string" apache/superset:latest
-
-# 2) ClickHouse baglantisi icin driver kur
-docker exec -it superset pip install clickhouse-connect
-
-# 3) DB migrate + admin user + init
-docker exec -it superset superset db upgrade
-docker exec -it superset superset fab create-admin --username admin --firstname Admin --lastname User --email admin@superset.local --password admin
-docker exec -it superset superset init
-```
-
 ## ClickHouse Superset Baglanti Bilgileri
 
 Superset konteyneri icinden ClickHouse'a baglanirken kullanilan degerler:
@@ -74,30 +78,9 @@ Superset konteyneri icinden ClickHouse'a baglanirken kullanilan degerler:
 - Password: `cansu2004`
 - Database: `default`
 
-## Frontend
-
-`veriisleme-frontend/` klasoru Angular tabanlidir. Arayuzden yuklenen dosyalar MinIO icindeki `veriisleme` bucket'ina gider.
-
-Calistirma:
-
-```bash
-npm install
-npm run start
-```
-
-## Backend
-
-`veriisleme-backend/` klasoru Spring Boot tabanlidir ve MinIO SDK kullanir. Frontend'den gelen dosyalarin MinIO'ya yuklenmesini bu katman yonetir.
-
-Calistirma:
-
-```bash
-mvn spring-boot:run
-```
-
 ## Dosyalar
 
-- `docker-compose.yml`: Tum servislerin tek seferde kurulumu
+- `docker-compose.yml`: Tum servislerin tek seferde kurulumu (opsiyonel)
 - `Terminal.txt`: Tekil docker komutlari
 - `my_etl.py`: Spark ETL akisi
 - `veriisleme-frontend/`: Frontend (dosya yukleme)
