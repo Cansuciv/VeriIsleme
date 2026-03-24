@@ -1,4 +1,4 @@
-# Veri İşleme Projesi
+﻿# Veri İşleme Projesi
 
 Bu repo, MinIO (Data Lake), Apache NiFi (veri akış/aktarım), Apache Spark (ETL), ClickHouse (Data Warehouse) ve Superset (BI) üzerinden uçtan uca veri işleme akışını örnekler.
 
@@ -84,6 +84,7 @@ Superset konteyneri içinden ClickHouse'a bağlanırken kullanılan değerler:
 - `my_etl.py`: Spark ETL akışı
 - `veriisleme-frontend/`: Frontend (dosya yükleme)
 - `veriisleme-backend/`: Backend
+- `nifi-data/`: NiFi'nin `/tmp/nifi-data` klasörüne bağlı dizin. Buradaki dosyalarla deneme yapılabilir.
 
 ## Notlar
 
