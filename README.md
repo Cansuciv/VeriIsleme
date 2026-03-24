@@ -45,7 +45,7 @@ mvn spring-boot:run
 ## Bileşenler
 
 - MinIO (Data Lake): `http://localhost:9001`
-- Apache NiFi: `https://localhost:8443` (HTTP açılmaz; tarayıcıda HTTPS ile devam edilmelidir)
+- Apache NiFi: `https://localhost:8443` (localhost:8443 açılmaz bu yüzden başına https:// yazılarak https://localhost:8443/ bu şekilde açılmalı)
 - Apache Spark: `http://localhost:8081`
 - ClickHouse HTTP: `http://localhost:8123`
 - Superset: `http://localhost:8088`
