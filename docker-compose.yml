@@ -1,0 +1,78 @@
+﻿version: "3.8"
+
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: cansu2004
+    volumes:
+      - minio_data:/data
+    networks:
+      - bi-net
+
+  nifi:
+    image: apache/nifi:latest
+    container_name: nifi
+    ports:
+      - "8443:8443"
+    environment:
+      SINGLE_USER_CREDENTIALS_USERNAME: admin
+      SINGLE_USER_CREDENTIALS_PASSWORD: cansu20042004
+    volumes:
+      - "C:/Users/cansu/OneDrive/Masaüstü/VeriIslemeProje/nifi-data:/tmp/nifi-data"
+    networks:
+      - bi-net
+
+  spark:
+    image: spark:latest
+    container_name: spark
+    ports:
+      - "4040:4040"
+      - "7077:7077"
+      - "8081:8080"
+    volumes:
+      - "C:/Users/cansu/OneDrive/Masaüstü/VeriIslemeProje:/opt/spark/work-dir"
+    command: /bin/bash -c "/opt/spark/sbin/start-master.sh && sleep infinity"
+    networks:
+      - bi-net
+  
+  clickhouse-server:
+    image: clickhouse/clickhouse-server:latest
+    container_name: clickhouse-server
+    ports:
+      - "8123:8123"
+      - "9002:9000"
+    environment:
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: cansu2004
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+    networks:
+      - bi-net
+
+  superset:
+    build:
+      context: .
+      dockerfile: Dockerfile.superset
+    container_name: superset
+    ports:
+      - "8088:8088"
+    environment:
+      SUPERSET_SECRET_KEY: change-this-to-a-long-random-string
+    depends_on:
+      - clickhouse-server
+    networks:
+      - bi-net
+
+networks:
+  bi-net:
+
+volumes:
+  minio_data:
+  clickhouse_data:

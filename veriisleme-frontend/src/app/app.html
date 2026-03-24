@@ -1,0 +1,91 @@
+<main class="page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="brand-text">
+        <p class="brand-title">Veri İşleme</p>
+        <p class="brand-subtitle">61 Dosya yükle ve durumunu anında gör.</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="panel upload">
+    <div class="panel-header">
+      <h2>Dosya Yükle</h2>
+      <button class="link" type="button" (click)="clearFiles()">Tümünü Temizle</button>
+    </div>
+    <p class="panel-hint">CSV, XLSX, JSON veya TXT yükleyebilir, birden fazla dosyayı tek seferde seçebilirsin.</p>
+    <!-- 
+        drop → dosya bırakıldığında çalışır
+        dragover → sürüklerken çalışır
+        dragleave → çıkınca çalışır 
+    -->
+    <div
+      class="dropzone"
+      [class.is-dragging]="isDragging()"
+      drop → dosya bırakıldığında çalışır
+      (drop)="onDrop($event)" 
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+    >
+      <input
+        id="fileInput"
+        class="file-input"
+        type="file"
+        multiple
+        (change)="onFilesSelected($event)"
+      />
+      <label class="drop-cta" for="fileInput">Dosya Seç</label>
+      <span class="drop-text">veya sürükleyip bırak</span>
+    </div>
+
+    <!-- 
+    @if (selectedFiles().length > 0) -> Eğer dosya seçilmişse
+    @for (file of selectedFiles()) -> Seçilen dosyaları döngüye alır ve her biri için bir dosya öğesi oluşturur
+    -->
+    @if (selectedFiles().length > 0) { 
+      <div class="file-list">
+        @for (file of selectedFiles(); track file.name + file.size) {
+          <div class="file-item">
+            <div class="file-info">
+              <span class="file-name">{{ file.name }}</span>
+              <span class="file-size">{{ file.size }} bayt</span>
+            </div>
+            <button class="icon" type="button" (click)="removeFile($index)">Kaldır</button>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p>Henüz dosya yüklenmedi.</p>
+        <p>Dosyayı seçtiğinde listede görüreceksin.</p>
+      </div>
+    }
+
+    <div class="action-row upload-actions">
+      <button
+        class="primary"
+        type="button"
+        (click)="uploadFiles()"
+        [disabled]="isUploading() || selectedFiles().length === 0"
+      >
+        {{ isUploading() ? 'Yükleniyor...' : 'Dosyaları Yükle' }}
+      </button>
+      <span class="upload-hint">Seçili dosyalar backend'e gönderilir.</span>
+    </div>
+
+    <div
+      class="status-banner"
+      [class.success]="statusType() === 'success'"
+      [class.error]="statusType() === 'error'"
+      [class.progress]="statusType() === 'progress'"
+      [class.info]="statusType() === 'info'"
+    >
+      {{ statusText() }}
+    </div>
+  </section>
+</main>
