@@ -1,0 +1,66 @@
+﻿<section class="panel upload">
+  <div class="panel-header">
+    <h2>Veri Yukle</h2>
+    <button class="link" type="button" (click)="clearFiles()">Tumunu Temizle</button>
+  </div>
+  <p class="panel-hint">CSV, XLSX, JSON veya TXT yukleyebilir, birden fazla dosyayi tek seferde secebilirsin.</p>
+  <div
+    class="dropzone"
+    [class.is-dragging]="isDragging()"
+    (drop)="onDrop($event)"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+  >
+    <input
+      id="fileInput"
+      class="file-input"
+      type="file"
+      multiple
+      (change)="onFilesSelected($event)"
+    />
+    <label class="drop-cta" for="fileInput">Dosya Sec</label>
+    <span class="drop-text">veya surukleyip birak</span>
+    <span class="drop-meta">Dosyalar MinIO landing alanina alinir.</span>
+  </div>
+
+  @if (selectedFiles().length > 0) {
+    <div class="file-list">
+      @for (file of selectedFiles(); track file.name + file.size) {
+        <div class="file-item">
+          <div class="file-info">
+            <span class="file-name">{{ file.name }}</span>
+            <span class="file-size">{{ file.size }} bayt</span>
+          </div>
+          <button class="icon" type="button" (click)="removeFile($index)">Kaldir</button>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="empty-state">
+      <p>Henuz dosya yuklenmedi.</p>
+      <p>Dosyayi sectiginde listede goreceksin.</p>
+    </div>
+  }
+
+  <div class="action-row upload-actions">
+    <button
+      class="primary"
+      type="button"
+      (click)="uploadFiles()"
+      [disabled]="isUploading() || selectedFiles().length === 0"
+    >
+      {{ isUploading() ? 'Yukleniyor...' : 'Dosyalari Yukle' }}
+    </button>
+    <span class="upload-hint">Secili dosyalar backend'e gonderilir.</span>
+  </div>
+
+  <div
+    class="status-banner"
+    [class.success]="statusType() === 'success'"
+    [class.error]="statusType() === 'error'"
+    [class.progress]="statusType() === 'progress'"
+    [class.info]="statusType() === 'info'"
+  >
+    {{ statusText() }}
+  </div>
+</section>

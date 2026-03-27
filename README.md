@@ -77,6 +77,30 @@ Superset konteyneri içinden ClickHouse'a bağlanırken kullanılan değerler:
 - Password: `cansu2004`
 - Database: `default`
 
+## Superset Embed Yapilandirmasi (Angular)
+
+Superset'i Angular arayuzde embed etmek icin gerekli konfigurasyon:
+
+```powershell
+# 1) Dizini olustur
+docker exec -u root -i superset /bin/bash -lc "mkdir -p /app/pythonpath"
+
+# 2) Config dosyasini yaz
+@'
+FEATURE_FLAGS = {"EMBEDDED_SUPERSET": True}
+GUEST_TOKEN_JWT_SECRET = "9a7f2d3c8b1e4f6a9c0d2e7f8a1b3c5d7e9f0a2b4c6d8e0f2a4c6e8b0d2f4a6"
+GUEST_TOKEN_JWT_ALGO = "HS256"
+GUEST_TOKEN_JWT_EXP_SECONDS = 3600
+GUEST_ROLE_NAME = "Admin"
+'@ | docker exec -u root -i superset /bin/bash -lc "cat > /app/pythonpath/superset_config.py"
+
+# 3) Superset'i restart
+docker restart superset
+
+# 4) Kontrol
+docker exec -i superset /bin/bash -lc "cat /app/pythonpath/superset_config.py"
+```
+
 ## Dosyalar
 
 - `docker-compose.yml`: Tüm servislerin tek seferde kurulumu (opsiyonel)

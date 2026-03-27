@@ -1,0 +1,16 @@
+﻿<section class="panel etl-panel">
+  <div class="panel-header">
+    <h2>ETL Calistir</h2>
+  </div>
+  <p class="panel-hint">Spark job otomatik calisir ve ClickHouse'a yazar.</p>
+  <div class="etl-actions">
+    <button class="primary" type="button" (click)="runEtl()" [disabled]="isEtlRunning()">
+      {{ isEtlRunning() ? 'Calisiyor...' : 'ETL Baslat' }}
+    </button>
+  </div>
+  @if (etlMessage()) {
+    <div class="etl-message" [class.error]="etlMessageType() === 'error'">
+      {{ etlMessage() }}
+    </div>
+  }
+</section>

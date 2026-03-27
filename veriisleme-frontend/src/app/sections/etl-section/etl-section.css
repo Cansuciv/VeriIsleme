@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.etl-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.etl-actions {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.etl-message {
+  background: rgba(14, 107, 97, 0.08);
+  color: var(--accent);
+  padding: 0.6rem 0.8rem;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.etl-message.error {
+  background: rgba(219, 88, 96, 0.15);
+  color: #b0323a;
+}

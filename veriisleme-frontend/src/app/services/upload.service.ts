@@ -19,7 +19,18 @@ export class UploadService {
   }
 
   uploadFiles(files: File[]): Observable<string[]> {
-    //Dosyaları tek tek sırayla upload eder Aynı anda değil → sırayla gider. Tüm sonuçları bir array’e toplar
     return from(files).pipe(concatMap((file) => this.uploadFile(file)), toArray());
+  }
+
+  runEtl(): Observable<string> {
+    return this.http.post(`${this.apiBaseUrl}/api/etl/run`, null, {
+      responseType: 'text'
+    });
+  }
+
+  getSupersetGuestToken(dashboardId: string): Observable<string> {
+    return this.http.get(`${this.apiBaseUrl}/api/superset/guest-token?dashboardId=${encodeURIComponent(dashboardId)}`, {
+      responseType: 'text'
+    });
   }
 }

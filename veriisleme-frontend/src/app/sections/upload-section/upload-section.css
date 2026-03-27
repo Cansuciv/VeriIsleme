@@ -1,0 +1,127 @@
+:host {
+  display: block;
+}
+
+.dropzone {
+  border: 2px dashed rgba(14, 107, 97, 0.3);
+  border-radius: 18px;
+  padding: 1.5rem;
+  display: grid;
+  gap: 0.4rem;
+  justify-items: start;
+  background: rgba(14, 107, 97, 0.05);
+  transition: border 200ms ease, background 200ms ease, transform 200ms ease;
+}
+
+.dropzone.is-dragging {
+  border-color: var(--accent-2);
+  background: rgba(242, 161, 47, 0.12);
+  transform: translateY(-2px);
+}
+
+.file-input {
+  display: none;
+}
+
+.drop-cta {
+  background: var(--accent);
+  color: #fff;
+  padding: 0.55rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.drop-text {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.drop-meta {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.file-list {
+  margin-top: 1.2rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.file-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  background: #f6f7f9;
+}
+
+.file-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.file-name {
+  font-weight: 600;
+}
+
+.file-size {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.action-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.upload-actions {
+  align-items: center;
+  margin-top: 1.1rem;
+  flex-wrap: wrap;
+}
+
+.upload-hint {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.empty-state {
+  padding: 1.2rem;
+  border-radius: 16px;
+  background: #f8f5f0;
+  color: var(--muted);
+  display: grid;
+  gap: 0.4rem;
+}
+
+.status-banner {
+  margin-top: 1.2rem;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  background: #f4f6f9;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.status-banner.info {
+  background: rgba(14, 107, 97, 0.08);
+  color: var(--accent);
+}
+
+.status-banner.progress {
+  background: rgba(242, 161, 47, 0.12);
+  color: var(--warning);
+}
+
+.status-banner.success {
+  background: rgba(42, 163, 159, 0.18);
+  color: var(--success);
+}
+
+.status-banner.error {
+  background: rgba(219, 88, 96, 0.15);
+  color: #b0323a;
+}

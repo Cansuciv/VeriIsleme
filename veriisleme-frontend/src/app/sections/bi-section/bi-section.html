@@ -1,0 +1,13 @@
+﻿<section class="panel bi-panel">
+  <div class="panel-header">
+    <h2>BI ve Raporlama</h2>
+  </div>
+  <p class="panel-hint">Superset dashboard'u embed olarak goster.</p>
+  <div class="bi-actions">
+    <button class="ghost" type="button" (click)="embedSuperset()">Superset'i Goster</button>
+  </div>
+  @if (supersetMessage()) {
+    <div class="etl-message error">{{ supersetMessage() }}</div>
+  }
+  <div class="bi-embed" #supersetMount></div>
+</section>

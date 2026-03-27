@@ -23,3 +23,97 @@ textarea:focus-visible {
   outline: 2px solid rgba(15, 110, 109, 0.5);
   outline-offset: 2px;
 }
+
+.panel {
+  background: var(--panel);
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(31, 36, 48, 0.06);
+  animation: rise 600ms ease both;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.panel h2 {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.panel-hint {
+  margin: 0 0 1rem;
+  color: var(--muted);
+}
+
+
+.primary,
+.icon,
+.link,
+.ghost {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: "Source Sans 3", system-ui, sans-serif;
+}
+
+.primary {
+  background: var(--accent);
+  color: #fff;
+  padding: 0.6rem 1.6rem;
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: 0 10px 18px rgba(14, 107, 97, 0.2);
+}
+
+.primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.icon {
+  background: rgba(31, 36, 48, 0.08);
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+}
+
+.link {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.ghost {
+  border-radius: 14px;
+  padding: 0.7rem 1rem;
+  background: rgba(14, 107, 97, 0.08);
+  color: var(--accent-3);
+  font-weight: 600;
+  text-align: left;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ghost:hover {
+  background: rgba(14, 107, 97, 0.15);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
